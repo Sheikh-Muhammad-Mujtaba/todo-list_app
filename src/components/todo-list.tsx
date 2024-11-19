@@ -95,14 +95,19 @@ export default function TaskList() {
                         }}
                         className="flex-1 mr-2 px-3 py-2 rounded-md border border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
                     />
-                    <Button
-                        onClick={addTask}
-                        size="icon"
-                        className="bg-black hover:bg-slate-800 text-white font-medium py-2 px-4 rounded-md shrink-0"
-                    >
-                        <Plus className="h-4 w-4" />
-                        <span className="sr-only">Add task</span>
-                    </Button>
+                    <div className="relative group">
+
+                        <Button
+                            onClick={addTask}
+                            size="icon"
+                            className="bg-black hover:bg-slate-800 text-white font-medium py-2 px-4 rounded-md shrink-0"
+                        >
+                            <Plus className="h-4 w-4" />
+                        </Button>
+                        <div className="absolute left-1/2 transform -translate-x-1/2 top-[-40px] w-max bg-gray-800 text-white text-sm py-1 px-3 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                            Add task
+                        </div>
+                    </div>
                 </div>
                 <div className="space-y-2">
                     {tasks.map((task) => (
@@ -111,11 +116,16 @@ export default function TaskList() {
                             className="flex items-center justify-between bg-gray-100 dark:bg-gray-700 rounded-lg p-2 transition-all duration-200 ease-in-out hover:shadow-md"
                         >
                             <div className="flex items-center space-x-2 flex-1">
-                                <Checkbox
-                                    checked={task.completed}
-                                    className="shrink-0"
-                                    onCheckedChange={() => toggleTaskCompletion(task.id)}
-                                />
+                                <div className="relative group">
+                                    <Checkbox
+                                        checked={task.completed}
+                                        className="shrink-0"
+                                        onCheckedChange={() => toggleTaskCompletion(task.id)}
+                                    />
+                                    <div className="absolute left-1/2 transform -translate-x-1/2 top-[-40px] w-max bg-gray-800 text-white text-sm py-1 px-3 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                                        {task.completed ? "Uncheck" : "Check"}
+                                    </div>
+                                </div>
                                 {editingTaskId === task.id ? (
                                     <Input
                                         type="text"
@@ -132,8 +142,7 @@ export default function TaskList() {
                                     />
                                 ) : (
                                     <span
-                                        className={`flex-1 transition-all duration-200  ${
-                                            task.completed
+                                        className={`flex-1 transition-all duration-200  ${task.completed
                                             ? "line-through text-gray-500 dark:text-gray-400"
                                             : "text-gray-800 dark:text-gray-200"
                                             }`}
@@ -145,37 +154,54 @@ export default function TaskList() {
                             <div className="flex items-center space-x-1">
                                 {editingTaskId === task.id ? (
                                     <>
-                                        <Button
-                                            onClick={updateTask}
-                                            size="icon" variant="ghost"
-                                            className="bg-black hover:bg-slate-800 text-white font-medium py-1 px-2 rounded-md mr-2"
-                                        >
-                                            <Check className="h-4 w-4" />
-                                            <span className="sr-only">Save</span>
-                                        </Button>
-                                        <Button onClick={() => setEditingTaskId(null)} size="icon" variant="ghost">
-                                            <X className="h-4 w-4" />
-                                            <span className="sr-only">Cancel</span>
-                                        </Button>
+                                        <div className="relative group">
+                                            <Button
+                                                onClick={updateTask}
+                                                size="icon" variant="ghost"
+                                                className=" bg-black hover:bg-slate-800 text-white font-medium py-1 px-2 rounded-md mx-2"
+                                            >
+                                                <Check className="h-4 w-4" />
+                                            </Button>
+                                            <div className="absolute left-1/2 transform -translate-x-1/2 top-[-40px] w-max bg-gray-800 text-white text-sm py-1 px-3 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                                                Save
+                                            </div>
+                                        </div>
+                                        <div className="relative group">
+                                            <Button onClick={() => setEditingTaskId(null)} size="icon" variant="ghost">
+                                                <X className="h-4 w-4" />
+                                            </Button>
+                                            <div className="absolute left-1/2 transform -translate-x-1/2 top-[-40px] w-max bg-gray-800 text-white text-sm py-1 px-3 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                                                Cancel
+                                            </div>
+                                        </div>
                                     </>
                                 ) : (
-                                    <Button
-                                        onClick={() => startEditingTask(task.id, task.text)}
-                                        size="icon" variant="ghost"
-                                        className="bg-gray-300 hover:bg-gray-400 text-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-gray-200 font-medium py-1 px-2 rounded-md mr-2"
-                                    >
-                                        <Pencil className="h-4 w-4" />
-                                        <span className="sr-only">Edit</span>
-                                    </Button>
+                                    <div className="relative group">
+
+                                        <Button
+                                            onClick={() => startEditingTask(task.id, task.text)}
+                                            size="icon" variant="ghost"
+                                            className="bg-gray-300 hover:bg-gray-400 text-gray-800 dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-gray-200 font-medium py-1 px-2 rounded-md mr-2"
+                                        >
+                                            <Pencil className="h-4 w-4" />
+                                        </Button>
+                                        <div className="absolute left-1/2 transform -translate-x-1/2 top-[-40px] w-max bg-gray-800 text-white text-sm py-1 px-3 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                                            Edit
+                                        </div>
+                                    </div>
                                 )}
-                                <Button
-                                    onClick={() => deleteTask(task.id)}
-                                    size="icon" variant="ghost"
-                                    className="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-2 rounded-md"
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                    <span className="sr-only">Delete</span>
-                                </Button>
+                                <div className="relative group">
+                                    <Button
+                                        onClick={() => deleteTask(task.id)}
+                                        size="icon" variant="ghost"
+                                        className="bg-red-500 hover:bg-red-600 text-white font-medium py-1 px-2 rounded-md"
+                                    >
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
+                                    <div className="absolute left-1/2 transform -translate-x-1/2 top-[-40px] w-max bg-gray-800 text-white text-sm py-1 px-3 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                                        Delete
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     ))}
